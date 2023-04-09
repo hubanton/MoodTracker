@@ -1,9 +1,12 @@
-import { Button, Image, StyleSheet, Text, View } from 'react-native'
-import React, { useLayoutEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native'
+import React, {useLayoutEffect, useState} from 'react'
+import {useNavigation} from '@react-navigation/native'
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ButtonGroup} from "@rneui/base";
 
 const sevenDayTrend = require("../assets/trend.png");
+
+const height = Dimensions.get("window").height
 
 const styles = StyleSheet.create({
     stretch: {
@@ -13,6 +16,30 @@ const styles = StyleSheet.create({
         marginLeft: "auto",
         marginRight: "auto",
     },
+    container: {
+        paddingBottom: 30,
+        paddingTop: 30,
+        display: "flex",
+        height: height,
+        flexDirection: "column",
+    },
+    header_field: {
+        backgroundColor: "green",
+        padding: 20
+    },
+    header: {
+        color: "white",
+        fontSize: 30,
+    },
+    conclusion: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+    normal_text: {
+        color: "black",
+        fontSize: 20,
+    }
 });
 
 const HomeScreen = () => {
@@ -25,30 +52,40 @@ const HomeScreen = () => {
         })
     })
 
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
     return (
-        <SafeAreaView className="bg-white flex-1 relative">
-            <View className="flex-col">
-                <View className="bg-green-500 px-4 py-5">
-                    <Text className="text-white text-4xl">Hello Joe</Text>
+        <SafeAreaView>
+            <View style={styles.container}>
+                <View style={styles.header_field}>
+                    <Text style={styles.header}>Hello Joe</Text>
                 </View>
-
-                <View className="flex-row px-4 justify-between h-auto py-5">
-                    <Text className="text-2xl">Current Mood: 😊</Text>
-                    <Button
-                        title="Set Mood"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
-                </View>
-
-                <View className="py-5 px-4 h-auto">
-                    <Text className="text-2xl">7-Day Trend: </Text>
+                <View style={{padding: 30}}>
+                    <View style={{width: "auto", display: "flex", alignItems: "center", marginBottom: 30}}>
+                        <ButtonGroup
+                            onPress={(value) => {
+                                setSelectedIndex(value);
+                            }}
+                            selectedIndex={selectedIndex}
+                            buttons={['Day', 'Week', 'Month']}
+                            containerStyle={{
+                                height: 30,
+                                width: 300,
+                                borderRadius: 12,
+                            }}
+                            buttonStyle={{backgroundColor: "white"}}
+                            selectedButtonStyle={{backgroundColor: "green"}}
+                        />
+                    </View>
                     <Image style={styles.stretch} source={sevenDayTrend}>
                     </Image>
                 </View>
 
-                <View className="py-5 px-4 h-auto">
-                    <Text className="text-2xl">Quote of the day: </Text>
-                    <Text>"Es ist Nachts kälter als draußen" -Confuzius</Text>
+                <View style={{padding: 30}}>
+                    <Text style={styles.conclusion}>Conclusion: </Text>
+                    <Text style={styles.normal_text}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel mi bibendum, tempus lacus ac,
+                        suscipit nisl. Curabitur eu velit vitae quam porttitor faucibus et sit amet sapien.</Text>
                 </View>
             </View>
         </SafeAreaView>
