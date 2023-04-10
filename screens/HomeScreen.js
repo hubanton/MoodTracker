@@ -1,8 +1,8 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native'
-import React, {useLayoutEffect, useState} from 'react'
+import React, {useLayoutEffect} from 'react'
 import {useNavigation} from '@react-navigation/native'
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ButtonGroup} from "@rneui/base";
+import {SegmentedButtons} from "react-native-paper";
 
 const sevenDayTrend = require("../assets/trend.png");
 
@@ -52,7 +52,7 @@ const HomeScreen = () => {
         })
     })
 
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [value, setValue] = React.useState('week');
 
     return (
         <SafeAreaView>
@@ -62,19 +62,19 @@ const HomeScreen = () => {
                 </View>
                 <View style={{padding: 30}}>
                     <View style={{width: "auto", display: "flex", alignItems: "center", marginBottom: 30}}>
-                        <ButtonGroup
-                            onPress={(value) => {
-                                setSelectedIndex(value);
-                            }}
-                            selectedIndex={selectedIndex}
-                            buttons={['Day', 'Week', 'Month']}
-                            containerStyle={{
-                                height: 30,
-                                width: 300,
-                                borderRadius: 12,
-                            }}
-                            buttonStyle={{backgroundColor: "white"}}
-                            selectedButtonStyle={{backgroundColor: "green"}}
+                        <SegmentedButtons
+                            value={value}
+                            onValueChange={setValue}
+                            buttons={[
+                                {
+                                    value: 'week',
+                                    label: 'Week',
+                                },
+                                {
+                                    value: 'month',
+                                    label: 'Month',
+                                },
+                            ]}
                         />
                     </View>
                     <Image style={styles.stretch} source={sevenDayTrend}>
